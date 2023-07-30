@@ -9,6 +9,7 @@ int n;
 bool visited[MAX];
 vector<pair<int, int>> tree[MAX];
 
+// 자식 노드의 수가 2개보다 많을 때를 고려해야 된다
 int main(void)
 {
     cin >> n;
