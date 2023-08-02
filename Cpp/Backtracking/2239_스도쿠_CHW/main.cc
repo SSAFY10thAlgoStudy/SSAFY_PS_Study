@@ -1,3 +1,5 @@
+// 비트 마스크 설명
+// https://concrete-behavior-792.notion.site/4730dab25f644fb8a0c27b0296780843?pvs=4
 #include <iostream>
 #include <stack>
 #include <vector>
