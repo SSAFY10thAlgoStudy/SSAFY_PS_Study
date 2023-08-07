@@ -21,7 +21,7 @@ int main(void)
         divid = pow(10, DIGIT_LIMIT - 1);
         digitSize = -1;
 
-        // 각 자릿수 설정
+        // 각 자릿수 설정 ex) 19234 => [1,9,2,3,4],  326 => [0,0,3,2,6] 과 같이 저장
         for (int i = 0; i < DIGIT_LIMIT; i++)
         {
             digits[i] = copiedNumber / (divid); // 10^(DIGIT_LIMIT-1)의 자리 ~ 1의 자리까지 구하기
