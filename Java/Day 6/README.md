@@ -8,7 +8,7 @@ https://jinyong3512.tistory.com/158
 https://jinyong3512.tistory.com/159
 
 A -> B (그리디)
-https://jinyong3512.tistory.com/160
+https://jinyong3512.tistory.com/161
 
 카드 합체 놀이 (그리디)
-https://jinyong3512.tistory.com/161
+https://jinyong3512.tistory.com/162
