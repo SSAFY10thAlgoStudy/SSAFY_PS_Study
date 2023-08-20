@@ -1,114 +1,87 @@
 #include <iostream>
+#include <cstring>
+#include <vector>
 #include <queue>
+
 using namespace std;
 
-int dx[] = {0, 0, -1, 1};
-int dy[] = {-1, 1, 0, 0};
-
-int diff = 400;
-
-int area[800][800];
-
-typedef struct Cell
+struct cell
 {
-    int y, x;
-    int health;
-    int remain;
+    int x;
+    int y;
+    int X;
+    int t;
+};
 
-    Cell(int y, int x, int health, int remain)
-    {
-        this->y = y;
-        this->x = x;
-        this->health = health;
-        this->remain = remain;
-    }
-} Cell;
-
-struct compare
+struct cmp
 {
-    bool operator()(Cell a, Cell b)
+    bool operator()(cell a, cell b)
     {
-        if (b.remain == 0 && a.remain != 0)
-            return true;
-
-        if (a.health > b.health)
-        {
-            return true;
-        }
-
-        return false;
+        return a.X < b.X;
     }
 };
-priority_queue<Cell, vector<Cell>, compare> deactive, active, dead, tmp_q;
 
-int K, curTime = 0, N, M, T, health;
-
-void update()
+int main(int argc, char **argv)
 {
-    while (!active.empty())
-    {
-        auto elem = active.top();
-        if (elem.remain == 0)
-        {
-            // 활성 상태의 세포 중 생명력이 0인 녀석들을 제거
-        }
-        else
-        {
-            // 활성 상태의 세포 중 생명력이 남아있다면 번식시키기
-            for (int d = 0; d < 4; d++)
-            {
-                int ny = elem.y + dy[d];
-                int nx = elem.x + dx[d];
+    int test_case, i, j, a, dead, len, x, y, X, nx, ny;
+    int T, N, M, K;
+    int dir[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+    int map[350][350];
+    vector<cell> cells;
+    priority_queue<cell, vector<cell>, cmp> activation;
 
-                // 죽어 있는 세포의 공간이 아니고 비활성 상태의 세포가 있는 공간이 아니라면
-                if (area[ny][nx] >= 0)
-                {
-                    area[ny][nx] = elem.health;
-                    deactive.push(Cell(ny, nx, health, health));
-                }
-            }
-        }
-    }
-
-    // deactive 중 활성화 시간에 다다른 녀석들은 꺼내서 활성화 세포 큐에 집어넣는다
-    while (!deactive.empty())
-    {
-        if (deactive.top().remain == 0)
-        {
-            auto elem = deactive.top();
-            deactive.pop();
-            elem.remain = health;
-            active.push(elem);
-        }
-    }
-    tmp = deactive;
-    while (!)
-}
-int main(void)
-{
     cin >> T;
-    for (int t = 1; t <= T; t++)
+    for (test_case = 1; test_case <= T; ++test_case)
     {
         cin >> N >> M >> K;
-
-        // 초기 설정
-        for (int i = 0; i < N; i++)
+        memset(map, 0, sizeof(map));
+        cells.clear();
+        for (i = 0; i < N; i++)
         {
-            for (int j = 0; j < M; j++)
+            for (j = 0; j < M; j++)
             {
-                cin >> area[i][j];
-                if (area[i][j] > 0)
+                cin >> a;
+                map[150 + i][150 + j] = a;
+                if (a != 0)
+                    cells.push_back({150 + i, 150 + j, a, a});
+            }
+        }
+
+        dead = 0;
+        len = cells.size();
+        while (K > 0)
+        {
+            K--;
+            for (i = 0; i < len; i++)
+            {
+                cells[i].t--;
+                if (cells[i].t == -1)
+                { // 비활성화 -> 활성화
+                    activation.push(cells[i]);
+                }
+                if (cells[i].t == -cells[i].X)
+                { // 활성화 -> 죽음
+                    dead++;
+                }
+            }
+
+            while (!activation.empty())
+            {
+                x = activation.top().x, y = activation.top().y, X = activation.top().X, activation.pop();
+                for (i = 0; i < 4; i++)
                 {
-                    // 줄기 세포의 경우
-                    deactive.push(Cell(i, j, health, health));
+                    nx = x + dir[i][0], ny = y + dir[i][1];
+                    if (map[nx][ny] == 0)
+                    {
+                        map[nx][ny] = X;
+                        cells.push_back({nx, ny, X, X});
+                        len++;
+                    }
                 }
             }
         }
 
-        for (int spent = 0; spent < K; spent++)
-        {
-            update();
-        }
+        cout << "#" << test_case << " " << len - dead << "\n";
     }
     return 0;
 }
