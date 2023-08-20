@@ -10,3 +10,5 @@ for _ in range(m):
     heapq.heappush(nums, temp)
 
 print(sum(nums))
+
+

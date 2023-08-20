@@ -14,6 +14,7 @@ while q:
         break
     # if value <= B and not chk[value]:
         # chk[value] = True
+
     q.append((value * 2, count + 1))
     q.append((int(str(value) + "1"), count + 1))
 else:
